@@ -1,12 +1,13 @@
 const mysql = require("mysql2");
+const auth = require('./auth.js');
 
 module.exports.execreq = function (req,callback) {
 let data;
 let cnn = mysql.createConnection({
   host: "localhost",
-  user: "",
+  user: auth.getbdlogin(),
   database: "telegrambot",
-  password: ""
+  password: auth.getbdpass()
 });
 
 /*cnn.execute(req,
