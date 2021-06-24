@@ -4,9 +4,9 @@ const auth = require('./auth.js');
 module.exports.execreq = function (req,callback) {
 let data;
 let cnn = mysql.createConnection({
-  host: "localhost",
+  host: auth.getbdhost(),
   user: auth.getbdlogin(),
-  database: "telegrambot",
+  database: auth.getbdname(),
   password: auth.getbdpass()
 });
 
