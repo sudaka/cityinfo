@@ -24,7 +24,7 @@ cnn.end(function(err) {
   if (err) {
     return console.log("Ошибка: " + err.message);
   }
-  console.log("Подключение закрыто");
+  //console.log("Подключение закрыто");
 });
 
 return data;
