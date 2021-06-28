@@ -19,7 +19,6 @@ module.exports.ClTable = class ClTable {
 }
 
 function checktablecount(err,results,fields) {
-    //logreqresults(err,results,fields)
     if (!(err)) {
         //create new tree structure in database
         if ((results[0].count == 0) && this.creating) {
@@ -31,7 +30,6 @@ function checktablecount(err,results,fields) {
             mysqlfunc.execreq(req, checkerror.bind(this));
             }
     }
-    //console.log(results[0].count);    
 }
 
 function checkerror(err,results,fields) {
