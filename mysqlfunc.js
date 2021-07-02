@@ -1,31 +1,23 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 const auth = require('./auth.js');
 
-module.exports.execreq = function (req,callback) {
-let data;
-let cnn = mysql.createConnection({
-  host: auth.getbdhost(),
-  user: auth.getbdlogin(),
-  database: auth.getbdname(),
-  password: auth.getbdpass()
-});
+var execreq = async function(req) {
+    let cnn = await mysql.createConnection({
+      host: auth.getbdhost(),
+      user: auth.getbdlogin(),
+      database: auth.getbdname(),
+      password: auth.getbdpass()
+    });
+    try {
+            const [rows, fields] = await cnn.execute(req);
+            return [null,rows,fields]
+        } catch (e) {
+            return [e,'',''];
+        } finally {
+            //console.log('=======end conn=========');
+            cnn.end();
+        }
 
-/*cnn.execute(req,
-  function(err, results, fields) {
-    //return results;
-    //console.log(err);
-    console.log(results[0].id+'   '+results.length); // собственно данные
-    //console.log(fields); // мета-данные полей 
-});
-*/
-
-cnn.execute(req,callback);
-cnn.end(function(err) {
-  if (err) {
-    return console.log("Ошибка: " + err.message);
-  }
-  //console.log("Подключение закрыто");
-});
-
-return data;
-}
+};
+ 
+module.exports.execreq = execreq;

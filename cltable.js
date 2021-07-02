@@ -1,4 +1,18 @@
-const mysqlfunc = require('./mysqlprom.js');
+/*
+Module working with tree-like data by Closure Table technology.
+Export class ClTable.
+Properties:
+    creating        - boolean, check is needing create new tables for data and tree if not exist
+    tname           - string, name of data table
+    tpname          - string, name of tree structure table
+    tstruct         - string, if creating new keep sql string for creating new data table. 
+    notaction       - boolean, true if all methods are finished. 
+Methods:
+    constructor     - initializing object properties and check 
+    checktablecount - check needing to create tables
+    droptables      - !WARNING! Dropping tables for current object with all data
+*/
+const mysqlfunc = require('./mysqlfunc.js');
 const auth = require('./auth.js');
 
 module.exports.ClTable = class ClTable {
@@ -23,9 +37,7 @@ module.exports.ClTable = class ClTable {
     droptables() {
         return checkAction.apply(this,[indroptables]);
     }
-    addItem(parid,data) {
-        return checkAction.apply(this,[inAddItem,parid,data]);
-    }
+
 }
 
 async function checkAction(accfunc,...args) {
@@ -80,11 +92,6 @@ async function inchecktablecount() {
             return [err,'',''];
         }
         
-}
-
-async function inAddItem(parid,data) {
-    let req = "INSERT INTO " + this.tname + " VALUES (NULL"+data+")";
-    console.log(req);
 }
 
 function checkerror(err,results,fields) {
